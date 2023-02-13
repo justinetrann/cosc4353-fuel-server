@@ -8,10 +8,11 @@
 
 const express = require("express");
 const functions = require("firebase-functions");
-
-const PORT = process.env.PORT || 3001;
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors({ origin: true }));
 
 // app.listen(PORT, () => {
 //   console.log(`Server listening on ${PORT}`);
