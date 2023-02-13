@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env cd ./functions && npm start"
+    "start": "cross-env cd ./functions && npm start",
+    "deploy": "firebase deploy"
   },
   "keywords": [],
   "author": "",
