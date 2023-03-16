@@ -1,19 +1,22 @@
 {
   "name": "cosc4353-fuel-server",
-  "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "cross-env cd ./functions && npm start",
-    "deploy": "firebase deploy"
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "main": "src/index.js",
   "dependencies": {
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "express": "^4.18.2",
+    "firebase-admin": "^10.0.2",
     "firebase-functions": "^4.2.1"
-  }
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
 }

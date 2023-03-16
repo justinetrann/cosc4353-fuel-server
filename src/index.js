@@ -8,18 +8,28 @@
 
 const express = require("express");
 const functions = require("firebase-functions");
+const { initializeApp } = require("firebase-admin/app");
 const cors = require("cors");
+
+// Initialize Firebase services
+initializeApp();
+
+// Routers
+const userProfileRouter = require("./routes/user.route");
+const { Ok } = require("./model/responses");
 
 const app = express();
 
+// Enable cors
 app.use(cors({ origin: true }));
 
-// app.listen(PORT, () => {
-//   console.log(`Server listening on ${PORT}`);
-// });
+// User profile routes
+app.use('/users', userProfileRouter)
 
-app.get("/test", (req, res) => {
-    res.json({ message: "Hello from server!" });
+// Root page
+app.get("/", (req, res) => {
+    res.json(new Ok());
 });
 
+// Export express app to Firebase Functions
 exports.app = functions.https.onRequest(app)
