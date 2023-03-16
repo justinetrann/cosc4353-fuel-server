@@ -1,22 +1,11 @@
 {
-  "name": "cosc4353-fuel-server",
-  "description": "",
   "scripts": {
-    "serve": "firebase emulators:start --only functions",
-    "shell": "firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
-  },
-  "main": "src/index.js",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "firebase-admin": "^10.0.2",
-    "firebase-functions": "^4.2.1"
-  },
-  "devDependencies": {
-    "firebase-functions-test": "^0.2.0"
+    "install": "cd ./src && npm install",
+    "serve": "cd ./src && npm run serve",
+    "shell": "cd ./src && npm run shell",
+    "start": "cd ./src && npm run start",
+    "deploy": "cd ./src && npm run deploy",
+    "logs": "cd ./src && npm run logs"
   },
   "private": true
 }
