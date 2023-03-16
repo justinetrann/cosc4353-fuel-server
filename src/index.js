@@ -24,7 +24,7 @@ const app = express();
 app.use(cors({ origin: true }));
 
 // User profile routes
-app.use('/users', userProfileRouter)
+app.use('/user', userProfileRouter)
 
 // Root page
 app.get("/", (req, res) => {

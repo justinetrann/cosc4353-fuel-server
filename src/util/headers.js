@@ -4,7 +4,7 @@
  * @param {Express.Request} request 
  */
 exports.getAuthToken = (request) => {
-    let authHeader = (request.headers.Authorization || '')
+    let authHeader = (request.header('Authorization') || '')
         .replace('Bearer ', '');
     return authHeader;
 }
