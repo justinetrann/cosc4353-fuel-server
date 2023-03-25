@@ -16,6 +16,7 @@ initializeApp();
 
 // Routers
 const userProfileRouter = require("./routes/user.route");
+const fuelRouter = require("./routes/fuel.route");
 const { Ok } = require("./model/responses");
 
 const app = express();
@@ -23,8 +24,14 @@ const app = express();
 // Enable cors
 app.use(cors({ origin: true }));
 
+// For express-validator
+app.use(express.json());
+
 // User profile routes
 app.use('/user', userProfileRouter)
+
+// Fuel routes
+app.use('/fuel', fuelRouter)
 
 // Root page
 app.get("/", (req, res) => {

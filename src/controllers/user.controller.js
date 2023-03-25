@@ -2,7 +2,7 @@ const db = require('../services/db.service');
 let users = db.collection('users')
 
 exports.updateUser = async (uuid, data) => {
-    // TODO: Validate input
+    console.log(`Updating user profile for uuid '${uuid}'`, data);
     
     data.uuid = uuid;
     

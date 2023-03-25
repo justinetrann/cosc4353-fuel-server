@@ -1,62 +1,70 @@
 const express = require('express');
 const users = require('../controllers/user.controller');
-const auth = require('../controllers/auth.controller');
-const { getAuthToken } = require('../util/headers');
-const { ForbiddenMessage, Message } = require('../model/responses');
+const { Message } = require('../model/responses');
+const { body, validationResult, oneOf } = require('express-validator');
+const { getUserUUID } = require('../util/auth');
+const usStates = require('../data/us-states');
 const router = express.Router();
 
+router.use(express.json())
+
+const validate = (method) => {
+    switch (method) {
+      case 'updateProfile': {
+       return [
+            body('fullName').notEmpty().withMessage('Full Name is required.').trim()
+                .isLength({ max: 50 }).withMessage('Full Name cannot exceed 50 characters.'),
+            body('address1').notEmpty().withMessage('Address 1 is required.').trim()
+                .isLength({ max: 100 }).withMessage('Address 1 cannot exceed 100 characters.'),
+            body('address2').isLength({ max: 100 }).withMessage('Address 2 cannot exceed 100 characters.').trim(),
+            body('city').notEmpty().trim().withMessage('City is required.')
+                .isLength({ max: 100 }).withMessage('City cannot exceed 100 characters.'),
+            body('state').notEmpty().withMessage('State is required.')
+                .isIn(usStates).withMessage('State is an invalid value.'),
+            body('zip').notEmpty().withMessage('Zip is required.').trim()
+            .custom(val => {
+                if (String(val).length !== 5 && String(val).length !== 9){
+                    throw new Error("Zip must be 5 or 9 characters long.")
+                }
+                return true;
+            })
+         ]   
+      }
+    }
+  }
+
 // Update user profile
-router.post('/profile', async (request, response, next) => {
-    let idToken = getAuthToken(request);
+router.post('/profile', validate('updateProfile'), async (request, response, next) => {
 
-    function forbidden(){
-        response.status(403);
-        response.json(new ForbiddenMessage());
+    console.log(`Received body for url ${request.url}`, request.body);
+
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+      return response.status(400).json({ errors: errors.mapped() });
     }
 
-    if (!idToken){
-        console.log('Invalid Authorization header: ' + (idToken || 'null'));
-        forbidden();
-        return;
-    }
-    let uuid;
-    try {
-        uuid = await auth.getIdTokenSubject(idToken);
-    }
-    catch(e) {
-        console.log('ID token validation failed!', e);
-        forbidden();
-        return;
+    let uuid = await getUserUUID(request, response);
+    if (!uuid) return;
+
+    let _body = request.body;
+
+    let data = {
+        fullName: _body.fullName,
+        address1: _body.address1,
+        address2: _body.address2,
+        city: _body.city,
+        state: _body.state,
+        zip: _body.zip
     }
     
-    users.updateUser(uuid, request.body)
+    users.updateUser(uuid, data)
         .then(updatedData => response.json(updatedData))
         .catch(err => next(err))
 })
 
 router.get('/profile/', async (request, response, next) => {
-    let idToken = getAuthToken(request);
-
-    function forbidden(){
-        response.status(403);
-        response.json(new ForbiddenMessage());
-    }
-
-    if (!idToken){
-        console.log('Invalid Authorization header: ' + (idToken || 'null'));
-        forbidden();
-        return;
-    }
-    let uuid;
-    try {
-        uuid = await auth.getIdTokenSubject(idToken);
-    }
-    catch(e) {
-        console.log('ID token validation failed!', e);
-        forbidden();
-        return;
-    }
-    
+    let uuid = await getUserUUID(request, response);
+    if (!uuid) return;
 
     users.getUser(uuid)
     .then(data => {

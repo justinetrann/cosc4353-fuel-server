@@ -22,6 +22,16 @@ exports.ForbiddenMessage = class extends Message {
     }
 }
 
+exports.ProfileNotComplete = class extends Message {
+
+    /**
+     * ProfileNotComplete response JSON
+     */
+    constructor(){
+        super('User profile is not complete.');
+    }
+}
+
 /**
  * Creates an { ok: true } status response
  * @returns 
