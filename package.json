@@ -5,12 +5,15 @@
     "shell": "cd ./src && npm run shell",
     "start": "cd ./src && npm run start",
     "deploy": "cd ./src && npm run deploy",
-    "logs": "cd ./src && npm run logs"
+    "logs": "cd ./src && npm run logs",
+    "test": "cd ./src && npm run test",
+    "test:watch": "cd ./src && npm run test:watch"
   },
   "private": true,
   "dependencies": {
     "firebase": "^9.18.0",
     "firebase-admin": "^11.5.0",
-    "firebase-functions": "^4.2.1"
+    "firebase-functions": "^4.2.1",
+    "mocha": "^10.2.0"
   }
 }

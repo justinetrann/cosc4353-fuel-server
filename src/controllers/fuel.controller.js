@@ -1,32 +1,15 @@
 const db = require('../services/db.service');
 let quoteColl = db.collection('fuel-quotes');
 
-function getFuelPrice(){
+exports.getFuelPrice = () => {
     // TODO: Implement pricing module
     let price = 3;
     return price;
 }
 
-exports.calcFuelQuote = (gallonsRequested) => {
-
-    if (!gallonsRequested){
-        return {
-            suggestedPrice: null,
-            totalAmountDue: null
-        }
-    }
-
-    let price = getFuelPrice();
-
-    return {
-        suggestedPrice: price,
-        totalAmountDue: Number(gallonsRequested) * price
-    }
-}
-
 exports.FuelQuote = ({ gallonsRequested, deliveryDate, deliveryAddress, id }) => {
 
-    let quote = exports.calcFuelQuote(gallonsRequested);
+    let quote = exports.calcFuelQuote(gallonsRequested, getFuelPrice());
 
     return {
         ...quote,

@@ -5,6 +5,7 @@ const fuelForm = require('../controllers/fuel.controller');
 const { body, validationResult } = require('express-validator');
 const { getUserUUID, getUserProfile } = require('../util/auth');
 const { ForbiddenMessage } = require('../model/responses');
+const { calcFuelQuote } = require('../calc/fuel.calc');
 
 const validate = (method) => {
   switch (method) {
@@ -24,7 +25,7 @@ const validate = (method) => {
 }
 
 router.post('/quote/calculate', validate('calculate'), async (request, response, next) => {
-  let result = fuelForm.calcFuelQuote(request.body.gallonsRequested);
+  let result = calcFuelQuote(request.body.gallonsRequested, fuelForm.getFuelPrice());
   response.json(result);
 })
 
