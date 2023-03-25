@@ -1,3 +1,4 @@
+const { calcFuelQuote } = require('../calc/fuel.calc');
 const db = require('../services/db.service');
 let quoteColl = db.collection('fuel-quotes');
 
@@ -9,7 +10,7 @@ exports.getFuelPrice = () => {
 
 exports.FuelQuote = ({ gallonsRequested, deliveryDate, deliveryAddress, id }) => {
 
-    let quote = exports.calcFuelQuote(gallonsRequested, getFuelPrice());
+    let quote = calcFuelQuote(gallonsRequested, this.getFuelPrice());
 
     return {
         ...quote,
