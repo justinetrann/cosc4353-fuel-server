@@ -4,7 +4,7 @@ require('../services/firebase.service');
 
 const { createFuelQuote, updateFuelQuote, deleteFuelQuote, listFuelQuotes, getFuelQuote } = require('../controllers/fuel.controller');
 
-describe('Test create/list/update/delete user', () => {
+describe('Test create/list/update/delete fuel quotes', () => {
 
     let uuid = 'testFuelQuote-unit-test';
 
