@@ -11,6 +11,13 @@ exports.updateUser = async (uuid, data) => {
     return data;
 }
 
+exports.deleteUser = async (uuid) => {
+    console.log(`Deleting user \'${uuid}\'`);
+    await users.doc(uuid).delete();
+
+    return true;
+}
+
 exports.getUser = async (uuid) => {
     let result = await users.doc(uuid).get();
     return result.data();

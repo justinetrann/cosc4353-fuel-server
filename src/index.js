@@ -1,18 +1,18 @@
-// // Create and deploy your first functions
-// // https://firebase.google.com/docs/functions/get-started
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+/*
+
+NOTICE:
+
+Running this server will NOT work unless you put a serviceAccountKey.json file
+into the src directory. This file is NOT stored in git as it can be a security risk.
+To obtain a serviceAccountKey.json file, go to the firebase console, go to
+Project settings > Service accounts and click "Generate new private key". Once this key is
+generated it is up to you to keep track of it. If you lose it you have to regenerate it!
+*/
 
 const express = require("express");
 const functions = require("firebase-functions");
-const { initializeApp } = require("firebase-admin/app");
 const cors = require("cors");
-
-// Initialize Firebase services
-initializeApp();
+require('./services/firebase.service');
 
 // Routers
 const userProfileRouter = require("./routes/user.route");

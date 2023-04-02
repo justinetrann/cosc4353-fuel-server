@@ -24,3 +24,5 @@ yarn-error.log*
 firebase-debug.log
 ui-debug.log
 node_modules
+
+serviceAccountKey.json
