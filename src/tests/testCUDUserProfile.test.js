@@ -41,4 +41,9 @@ describe('Test create/get/update/delete user', () => {
         await deleteUser(uuid);
         console.log('Delete user test successful!');
     })
+
+    it('Check if user is deleted', async () => {
+        let user = await getUser(uuid);
+        assert(user === undefined, 'User still exists when it should have been deleted.');
+    })
 })
