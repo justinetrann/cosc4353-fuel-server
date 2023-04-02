@@ -6,7 +6,7 @@ const { updateUser, deleteUser, getUser } = require('../controllers/user.control
 
 describe('Test create/get/update/delete user', () => {
 
-    let uuid = 'testCUDUserProfile-unit-test';
+    let uuid = 'testUserProfile-unit-test';
 
     it('Create user', async () => {
         let data = {

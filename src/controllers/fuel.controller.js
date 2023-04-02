@@ -50,6 +50,16 @@ exports.createFuelQuote = async (uuid, { gallonsRequested, deliveryDate, deliver
     return quote;
 }
 
+exports.deleteFuelQuote = async (docID) => {
+    await quoteColl.doc(docID).delete();
+    return true;
+}
+
+exports.getFuelQuote = async (docID) => {
+    let result = await quoteColl.doc(docID).get();
+    return result.data();
+}
+
 exports.listFuelQuotes = async (uuid) => {
     let snapshot = await quoteColl.where('__name__', '>=', uuid).get();
 
