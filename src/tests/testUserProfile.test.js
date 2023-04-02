@@ -18,14 +18,12 @@ describe('Test create/get/update/delete user', () => {
             zip: '87104'
         }
         await updateUser(uuid, data);
-        console.log('Create user test successful!');
     })
 
     let userObj;
 
     it('Get user', async () => {
         userObj = await getUser(uuid);
-        console.log('Get user test successful!');
     })
 
     it('Update user', async () => {
@@ -34,12 +32,10 @@ describe('Test create/get/update/delete user', () => {
             fullName: 'Walter White Jr.'
         }
         await updateUser(uuid, data);
-        console.log('Update user test successful!');
     })
 
     it('Delete user', async () => {
         await deleteUser(uuid);
-        console.log('Delete user test successful!');
     })
 
     it('Check if user is deleted', async () => {
