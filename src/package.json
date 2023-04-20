@@ -8,6 +8,7 @@
         "deploy": "firebase deploy --only functions",
         "logs": "firebase functions:log",
         "test": "mocha ./tests/*.test.js",
+        "coverage": "nyc npm run test",
         "test:watch": "mocha --watch ./tests/*.test.js"
     },
     "main": "index.js",
@@ -23,6 +24,7 @@
     },
     "devDependencies": {
         "firebase-functions-test": "^0.2.0",
-        "mocha": "^10.2.0"
+        "mocha": "^10.2.0",
+        "nyc": "^15.1.0"
     }
 }

@@ -26,3 +26,5 @@ ui-debug.log
 node_modules
 
 serviceAccountKey.json
+
+.nyc_output/
