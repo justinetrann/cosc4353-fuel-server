@@ -1,16 +1,24 @@
 const { calcFuelQuote } = require('../calc/fuel.calc');
 const db = require('../services/db.service');
 let quoteColl = db.collection('fuel-quotes');
+const users = require('../controllers/user.controller');
 
-exports.getFuelPrice = () => {
-    // TODO: Implement pricing module
-    let price = 3;
-    return price;
-}
+exports.buildFuelQuote = async (userUUID, { gallonsRequested, deliveryDate, deliveryAddress, id }) => {
 
-exports.FuelQuote = ({ gallonsRequested, deliveryDate, deliveryAddress, id }) => {
+    let quotes = await this.listFuelQuotes(userUUID);
+    let user = await users.getUser(userUUID);
 
-    let quote = calcFuelQuote(gallonsRequested, this.getFuelPrice());
+    let currentPricePerGal = 1.5; // Hardcoded to $1.50 for now.
+
+    let locationFactor = user.state;
+    let rateHistoryFactor = quotes.length > 0 ? true : false;
+    let companyProfitFactor = 0.10; // Hardcoded to 10% for now.
+
+    let quote = calcFuelQuote(
+        currentPricePerGal, gallonsRequested,
+        locationFactor, rateHistoryFactor,
+        companyProfitFactor
+    );
 
     return {
         ...quote,
@@ -23,7 +31,10 @@ exports.FuelQuote = ({ gallonsRequested, deliveryDate, deliveryAddress, id }) =>
 
 exports.updateFuelQuote = async (doc_id, { gallonsRequested, deliveryDate, deliveryAddress }) => {
     
-    let quote = this.FuelQuote({
+    let uuid = String(doc_id).split('::')[0]; // Remove timestamp from right side
+    console.debug('uuid:', uuid);
+
+    let quote = await this.buildFuelQuote(uuid, {
         gallonsRequested,
         deliveryDate,
         deliveryAddress,
@@ -36,8 +47,8 @@ exports.updateFuelQuote = async (doc_id, { gallonsRequested, deliveryDate, deliv
 }
 
 exports.createFuelQuote = async (uuid, { gallonsRequested, deliveryDate, deliveryAddress }) => {
-    let docID = uuid + (new Date().toISOString());
-    let quote = this.FuelQuote({
+    let docID = uuid + '::' + (new Date().toISOString());
+    let quote = await this.buildFuelQuote(uuid, {
         gallonsRequested,
         deliveryDate,
         deliveryAddress,
