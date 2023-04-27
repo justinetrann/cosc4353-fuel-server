@@ -1,7 +1,7 @@
 const assert = require('assert');
 const { calcFuelQuote } = require('../calc/fuel.calc');
 
-describe('Test calcFuelQuote.js', () => {
+describe('Test fuel.calc.js', () => {
     it('GallonsRequested = 1, Price = 1.50, Client in Texas, No fuel history, Profit factor = 0.10', () => {
         let result = calcFuelQuote(1.50, 1, 'TX', false, 0.10);
         assert.equal(result.suggestedPrice, 2.4);
