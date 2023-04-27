@@ -35,9 +35,34 @@ Total Amount Due => 1500 * 1.695 = $2542.50
  * @param {number} companyProfitFactor Company Profit percentage (0.0 - 1.0)
  */
 exports.calcFuelQuote = (currentPricePerGal, gallonsRequested, locationFactor, rateHistoryFactor, companyProfitFactor) => {
+    let gallonsRequestedFactorCost = 0.03; // gallonsRequestedFactor working
+    if (gallonsRequested > 1000)
+    {
+        gallonsRequestedFactorCost = 0.02;
+        console.log("more than 1000 gallons, reducing cost")
+    }
 
-    let suggestedPrice = currentPricePerGal; // TODO: Implement rest of pricing module formula
-    
+    let locationFactorCost = 0.04; // location factor is working
+    if (locationFactor == "TX")
+    {
+        locationFactorCost = 0.02;
+        console.log("we're in texas, making 0.02")
+    }
+
+    console.log("company profit factor should be 0.10 == ", companyProfitFactor); //l company profit factor is working
+
+    // console.log("rate history: ", rateHistoryFactor);
+
+    let rateHistoryFactorCost = 0.0;
+
+    if (rateHistoryFactor == true)
+    {
+        console.log("has rate history, reducing cost");
+        rateHistoryFactorCost = 0.01;
+    }
+
+    let suggestedPrice = currentPricePerGal + gallonsRequestedFactorCost + locationFactorCost - rateHistoryFactorCost + companyProfitFactor; // TODO: Implement rest of pricing module formula
+    console.log("current result: ", suggestedPrice);
     if (!gallonsRequested){
         return {
             suggestedPrice: null,
@@ -47,6 +72,7 @@ exports.calcFuelQuote = (currentPricePerGal, gallonsRequested, locationFactor, r
 
     return {
         suggestedPrice: suggestedPrice,
-        totalAmountDue: Number(gallonsRequested) * currentPricePerGal
+        // totalAmountDue: Number(gallonsRequested) * currentPricePerGal // CHANGED
+        totalAmountDue: Number(gallonsRequested) * suggestedPrice
     }
 }
