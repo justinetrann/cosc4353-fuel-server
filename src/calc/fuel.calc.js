@@ -62,6 +62,7 @@ exports.calcFuelQuote = (currentPricePerGal, gallonsRequested, locationFactor, r
     }
 
     let suggestedPrice = currentPricePerGal + gallonsRequestedFactorCost + locationFactorCost - rateHistoryFactorCost + companyProfitFactor; // TODO: Implement rest of pricing module formula
+    suggestedPrice = suggestedPrice.toFixed(2);
     console.log("current result: ", suggestedPrice);
     if (!gallonsRequested){
         return {
